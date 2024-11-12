@@ -1,0 +1,49 @@
+.cart-page {
+  margin-top: 150px;
+}
+
+.cart-page h1 {
+  padding: 15px;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  background-color: rgba(3, 3, 56, 0.072);
+}
+
+.cart-page h1 > p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.cart-page .card {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.cart-page .card-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.cart-page .card-content {
+  flex: 1;
+}
+
+.cart-page .card-content p {
+  margin: 0;
+}
+
+.cart-page .cart-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 80px;
+}
+
+
+  

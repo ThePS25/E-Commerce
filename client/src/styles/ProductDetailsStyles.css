@@ -1,0 +1,93 @@
+.product-details {
+  margin-top: 2rem;
+}
+
+.product-details img {
+  width: 100%;
+  height: auto;
+  max-width: 350px;
+}
+
+.product-details-info {
+  padding: 1rem;
+}
+
+.product-details-info h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.product-details-info hr {
+  border-top: 1px solid #ddd;
+  margin-bottom: 1rem;
+}
+
+.product-details-info h6 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-details-info button {
+  margin-top: 1rem;
+}
+
+.similar-products {
+  margin-top: 2rem;
+}
+
+.similar-products h4 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.similar-products p {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.similar-products .card {
+  width: 18rem;
+}
+
+.similar-products .card img {
+  width: 100%;
+  height: auto;
+}
+
+.similar-products .card-body {
+  padding: 1rem;
+}
+
+.similar-products .card-name-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.similar-products .card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+.similar-products .card-price {
+  font-size: 1.2rem;
+}
+
+.similar-products .card-text {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.similar-products button {
+  margin-top: 1rem;
+}
+
+.product-image {
+  transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+  transform: scale(0.8);
+}
