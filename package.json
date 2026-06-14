@@ -17,8 +17,9 @@
     "client2:build": "npm run build --prefix client-2",
     "dev": "concurrently -n api,web -c cyan,magenta \"npm run server\" \"npm run client2:dev\"",
     "build": "npm run client2:build",
-    "postinstall": "npm install --prefix client-2",
+    "postinstall": "node scripts/postinstall.mjs",
     "heroku-postbuild": "npm run build",
+    "render-build": "npm run build",
     "start:prod": "cross-env NODE_ENV=production node server.js"
   },
   "keywords": [

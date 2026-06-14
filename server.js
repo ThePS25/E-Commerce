@@ -68,20 +68,26 @@ app.use("/api", (_req, res) => {
 });
 
 // Serve client-2 production build
-if (fs.existsSync(clientDist)) {
+const indexHtml = path.join(clientDist, "index.html");
+
+if (fs.existsSync(indexHtml)) {
   app.use(express.static(clientDist, {
     maxAge: isProduction ? "1d" : 0,
-    index: false,
   }));
 
-  app.get("*", (req, res, next) => {
-    if (req.path.startsWith("/api")) return next();
-    res.sendFile(path.join(clientDist, "index.html"), (err) => {
+  // SPA fallback for client-side routes (Express 4 needs explicit paths)
+  const sendSpa = (_req, res, next) => {
+    res.sendFile(indexHtml, (err) => {
       if (err) next(err);
     });
-  });
+  };
+
+  app.get("/", sendSpa);
+  app.get(/^\/(?!api).*/, sendSpa);
 } else if (isProduction) {
-  console.warn("WARNING: client-2/dist not found. Run `npm run build` before starting in production.".yellow);
+  console.warn(
+    `WARNING: ${indexHtml} not found. Run "npm run build" during deploy.`.yellow
+  );
 }
 
 // Global error handler
@@ -97,7 +103,7 @@ app.listen(PORT, () => {
   console.log(
     `ZooPHii API running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`.bgCyan.white
   );
-  if (fs.existsSync(clientDist)) {
-    console.log(`Serving frontend from client-2/dist`.green);
+  if (fs.existsSync(indexHtml)) {
+    console.log(`Serving frontend from ${clientDist}`.green);
   }
 });
