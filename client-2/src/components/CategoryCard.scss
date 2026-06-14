@@ -1,0 +1,31 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.category-card {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-6 $space-4;
+  @include card-base;
+  text-decoration: none;
+  color: $color-text;
+  transition: box-shadow $transition-base, border-color $transition-base;
+  min-height: 140px;
+
+  &:hover {
+    border-color: rgba($color-primary, 0.3);
+    box-shadow: $shadow-md;
+    color: $color-text;
+  }
+
+  &__icon {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  &__name {
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+    text-align: center;
+  }
+}

@@ -1,0 +1,115 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.admin-form-panel {
+  @include card-base;
+  padding: $space-8;
+  max-width: 640px;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    width: 100%;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-5;
+
+    @include respond-to(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-text;
+  }
+
+  &__input,
+  &__textarea,
+  &__select {
+    width: 100%;
+    padding: $space-3 $space-4;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    font-size: $font-size-sm;
+    font-family: inherit;
+    background: $color-surface;
+    color: $color-text;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+    }
+
+    &::placeholder {
+      color: $color-text-light;
+    }
+  }
+
+  &__textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-3 0;
+
+    input[type='checkbox'] {
+      width: 18px;
+      height: 18px;
+      accent-color: $color-primary;
+    }
+
+    label {
+      margin: 0;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+    }
+  }
+
+  &__file {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+
+    input[type='file'] {
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+    }
+  }
+
+  &__preview {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: $radius-lg;
+    border: 1px solid $color-border-light;
+    background: $color-bg;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $space-3;
+    padding-top: $space-2;
+
+    .btn {
+      min-width: 160px;
+    }
+  }
+}

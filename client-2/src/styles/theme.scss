@@ -1,0 +1,33 @@
+@use 'variables' as *;
+
+:root {
+  --color-primary: #{$color-primary};
+  --color-primary-dark: #{$color-primary-dark};
+  --color-secondary: #{$color-secondary};
+  --color-accent: #{$color-accent};
+  --color-bg: #{$color-bg};
+  --color-surface: #{$color-surface};
+  --color-text: #{$color-text};
+  --color-text-muted: #{$color-text-muted};
+  --color-success: #{$color-success};
+  --color-error: #{$color-error};
+  --color-border: #{$color-border};
+  --navbar-height: #{$navbar-height};
+  --radius-lg: #{$radius-lg};
+  --shadow-md: #{$shadow-md};
+  --font-family-base: #{$font-family-base};
+}
+
+// Bootstrap overrides
+$primary: $color-primary;
+$secondary: $color-secondary;
+$success: $color-success;
+$danger: $color-error;
+$body-bg: $color-bg;
+$body-color: $color-text;
+$border-radius: $radius-md;
+$border-radius-lg: $radius-lg;
+$font-family-sans-serif: $font-family-base;
+
+// Ant Design token overrides (applied via ConfigProvider in App)
+$antd-primary: $color-primary;

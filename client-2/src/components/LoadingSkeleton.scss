@@ -1,0 +1,58 @@
+@use '../styles/variables' as *;
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: $space-6;
+}
+
+.skeleton-card {
+  border-radius: $radius-xl;
+  overflow: hidden;
+  background: $color-surface;
+  border: 1px solid $color-border-light;
+
+  &__image {
+    height: 200px;
+    border-radius: 0;
+  }
+
+  &__body {
+    padding: $space-4;
+  }
+
+  &__title {
+    height: 20px;
+    width: 70%;
+    margin-bottom: $space-3;
+  }
+
+  &__text {
+    height: 14px;
+    width: 90%;
+    margin-bottom: $space-2;
+  }
+
+  &__price {
+    height: 18px;
+    width: 40%;
+  }
+}
+
+.skeleton-stat {
+  padding: $space-6;
+  border-radius: $radius-xl;
+  background: $color-surface;
+  border: 1px solid $color-border-light;
+
+  &__value {
+    height: 32px;
+    width: 60%;
+    margin-bottom: $space-2;
+  }
+
+  &__label {
+    height: 14px;
+    width: 80%;
+  }
+}

@@ -1,0 +1,73 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+
+  @include respond-to(lg) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &__panel {
+    padding: $space-10 $space-6;
+
+    @include respond-to(lg) {
+      padding: $space-16;
+    }
+
+    &--brand {
+      display: none;
+      background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+      color: white;
+      flex-direction: column;
+      justify-content: center;
+
+      @include respond-to(lg) {
+        display: flex;
+      }
+
+      h2 {
+        color: white;
+        font-size: $font-size-3xl;
+        margin: $space-8 0 $space-3;
+      }
+
+      p {
+        opacity: 0.9;
+        font-size: $font-size-lg;
+        max-width: 400px;
+      }
+    }
+
+    &--form {
+      @include flex-center;
+      background: $color-bg;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    color: white;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-xl;
+    text-decoration: none;
+
+    img {
+      height: 36px;
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  &__features {
+    margin-top: $space-10;
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    font-size: $font-size-sm;
+    opacity: 0.9;
+  }
+}

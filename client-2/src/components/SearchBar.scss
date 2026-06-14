@@ -1,0 +1,56 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-full;
+  padding: $space-1 $space-1 $space-1 $space-4;
+  box-shadow: $shadow-sm;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+  flex: 1;
+  max-width: 560px;
+
+  &:focus-within {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+  }
+
+  &__icon {
+    color: $color-text-muted;
+    flex-shrink: 0;
+    margin-right: $space-2;
+  }
+
+  &__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: $font-size-sm;
+    color: $color-text;
+    min-width: 0;
+
+    &::placeholder {
+      color: $color-text-light;
+    }
+  }
+
+  &__btn {
+    @include button-primary;
+    padding: $space-2 $space-5;
+    border-radius: $radius-full;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+  }
+
+  &--compact {
+    max-width: 100%;
+
+    .search-bar__btn {
+      display: none;
+    }
+  }
+}

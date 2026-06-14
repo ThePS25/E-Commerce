@@ -1,0 +1,103 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+  min-height: calc(100vh - #{$navbar-height} - 100px);
+
+  @include respond-to(lg) {
+    grid-template-columns: $sidebar-width 1fr;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    background: $color-surface;
+    cursor: pointer;
+
+    @include respond-to(lg) {
+      display: none;
+    }
+  }
+
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba($color-text, 0.4);
+    z-index: $z-modal - 1;
+
+    @include respond-to(lg) {
+      display: none;
+    }
+  }
+
+  &__sidebar {
+    @include card-base;
+    padding: $space-4;
+    height: fit-content;
+    position: sticky;
+    top: calc(#{$navbar-height} + #{$space-4});
+    display: none;
+
+    @include respond-to(lg) {
+      display: block;
+    }
+
+    &.open {
+      display: block;
+      position: fixed;
+      top: $navbar-height;
+      left: 0;
+      bottom: 0;
+      width: $sidebar-width;
+      z-index: $z-modal;
+      border-radius: 0;
+      overflow-y: auto;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: $space-1;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: $space-3;
+        padding: $space-3 $space-4;
+        border-radius: $radius-lg;
+        color: $color-text-muted;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-sm;
+        transition: all $transition-fast;
+
+        &:hover {
+          background: rgba($color-primary, 0.06);
+          color: $color-primary;
+        }
+
+        &.active {
+          background: linear-gradient(135deg, rgba($color-primary, 0.12), rgba($color-secondary, 0.08));
+          color: $color-primary;
+          font-weight: $font-weight-semibold;
+        }
+      }
+    }
+  }
+
+  &__main {
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    margin-bottom: $space-6;
+  }
+}

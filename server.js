@@ -1,52 +1,103 @@
-// const express = require('express') these are used in es 5
-// const colors = require('colors') but in es 6 and later (we are using es 7 ) the following is used
-
 import express from "express";
 import colors from "colors";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import cors from "cors";
+import helmet from "helmet";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
-import cors from "cors";
 import productRoutes from "./routes/productRoutes.js";
-import path from "path";
+import couponRoutes from "./routes/couponRoutes.js";
 
-//configure env
 dotenv.config();
 
-//database config
-connectDB();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-//rest object
+const isProduction = process.env.NODE_ENV === "production";
+const PORT = process.env.PORT || 8080;
+const clientDist = path.join(__dirname, "client-2", "dist");
+
+await connectDB();
+
 const app = express();
 
-//middlewares
-app.use(cors());
-app.use(morgan("dev"));
-app.use(express.json());
-// app.use(express.static(path.join(__dirname, "./client/build")));
+// Security & logging
+app.use(helmet({
+  contentSecurityPolicy: isProduction ? undefined : false,
+  crossOriginEmbedderPolicy: false,
+}));
+app.use(morgan(isProduction ? "combined" : "dev"));
 
-//routes
+const corsOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim())
+  : isProduction
+    ? [process.env.CLIENT_URL].filter(Boolean)
+    : ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"];
+
+app.use(cors({
+  origin: corsOrigins.length ? corsOrigins : true,
+  credentials: true,
+}));
+
+app.use(express.json({ limit: "10mb" }));
+
+// Health check (for load balancers / uptime monitors)
+app.get("/api/v1/health", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
+// API routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/coupon", couponRoutes);
 
-// rest api
-// app.get ( '/', (req,res) => {
-//     res.send("<h1>Welcome to Mern Stack Project</h1>");
-// } )
-app.use("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// Unknown API routes → JSON 404 (never SPA HTML)
+app.use("/api", (_req, res) => {
+  res.status(404).json({ success: false, message: "API route not found" });
 });
 
-//PORT
-const PORT = process.env.PORT || 8080;
+// Serve client-2 production build
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist, {
+    maxAge: isProduction ? "1d" : 0,
+    index: false,
+  }));
 
-//run listen
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api")) return next();
+    res.sendFile(path.join(clientDist, "index.html"), (err) => {
+      if (err) next(err);
+    });
+  });
+} else if (isProduction) {
+  console.warn("WARNING: client-2/dist not found. Run `npm run build` before starting in production.".yellow);
+}
+
+// Global error handler
+app.use((err, _req, res, _next) => {
+  console.error("Server error:".red, err.message);
+  res.status(err.status || 500).json({
+    success: false,
+    message: isProduction ? "Internal server error" : err.message,
+  });
+});
+
 app.listen(PORT, () => {
   console.log(
-    `Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgCyan
-      .white
+    `ZooPHii API running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`.bgCyan.white
   );
+  if (fs.existsSync(clientDist)) {
+    console.log(`Serving frontend from client-2/dist`.green);
+  }
 });

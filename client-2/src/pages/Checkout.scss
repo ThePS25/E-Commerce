@@ -1,0 +1,273 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.checkout {
+  max-width: 720px;
+  margin: 0 auto;
+
+  h1 {
+    margin-bottom: $space-8;
+  }
+
+  &__steps {
+    margin-bottom: $space-10;
+  }
+
+  &__panel {
+    @include card-base;
+    padding: $space-8;
+
+    h2 {
+      font-size: $font-size-xl;
+      margin-bottom: $space-6;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    margin-bottom: $space-6;
+
+    input {
+      padding: $space-3 $space-4;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+      font-size: $font-size-sm;
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+      }
+    }
+  }
+
+  &__form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-4;
+  }
+
+  &__nav {
+    display: flex;
+    gap: $space-3;
+    margin-top: $space-6;
+  }
+
+  &__review {
+    margin-bottom: $space-6;
+  }
+
+  &__review-item {
+    display: flex;
+    align-items: center;
+    gap: $space-4;
+    padding: $space-3 0;
+    border-bottom: 1px solid $color-border-light;
+
+    img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: $radius-md;
+    }
+
+    div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      font-size: $font-size-sm;
+
+      span {
+        color: $color-text-muted;
+      }
+    }
+  }
+
+  &__review-total {
+    text-align: right;
+    padding-top: $space-4;
+    font-size: $font-size-lg;
+  }
+
+  &__success {
+    @include card-base;
+    padding: $space-12;
+    text-align: center;
+
+    &-icon {
+      @include flex-center;
+      width: 64px;
+      height: 64px;
+      border-radius: $radius-full;
+      background: rgba($color-success, 0.1);
+      color: $color-success;
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-bold;
+      margin: 0 auto $space-4;
+    }
+
+    p {
+      color: $color-text-muted;
+      margin-bottom: $space-6;
+    }
+  }
+
+  &__payment-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-4;
+    margin-bottom: $space-6;
+
+    @include respond-to(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__payment-option {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-3;
+    padding: $space-4;
+    border: 2px solid $color-border;
+    border-radius: $radius-xl;
+    background: $color-surface;
+    cursor: pointer;
+    text-align: left;
+    transition: all $transition-fast;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: $space-1;
+
+      strong {
+        font-size: $font-size-sm;
+        color: $color-text;
+      }
+
+      span {
+        font-size: $font-size-xs;
+        color: $color-text-muted;
+      }
+    }
+
+    &.active {
+      border-color: $color-primary;
+      background: rgba($color-primary, 0.04);
+      color: $color-primary;
+    }
+  }
+
+  &__dropin {
+    margin-bottom: $space-6;
+  }
+
+  &__cod-note {
+    padding: $space-4;
+    border-radius: $radius-lg;
+    background: rgba($color-accent, 0.08);
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+    margin-bottom: $space-6;
+  }
+
+  &__coupons {
+    margin-bottom: $space-6;
+
+    h3 {
+      font-size: $font-size-base;
+      margin-bottom: $space-3;
+    }
+  }
+
+  &__coupon-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    margin-bottom: $space-4;
+  }
+
+  &__coupon-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: $space-3 $space-4;
+    border: 1px dashed $color-primary;
+    border-radius: $radius-lg;
+    background: rgba($color-primary, 0.04);
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    strong {
+      color: $color-primary;
+      font-size: $font-size-sm;
+    }
+
+    span {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+    }
+
+    &.active {
+      background: $color-primary;
+      border-style: solid;
+
+      strong, span {
+        color: white;
+      }
+    }
+  }
+
+  &__coupon-input {
+    display: flex;
+    gap: $space-2;
+
+    input {
+      flex: 1;
+      padding: $space-3 $space-4;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+    }
+  }
+
+  &__coupon-applied {
+    margin-top: $space-3;
+    font-size: $font-size-sm;
+    color: $color-success;
+
+    button {
+      margin-left: $space-2;
+      background: none;
+      border: none;
+      color: $color-error;
+      cursor: pointer;
+      font-size: $font-size-xs;
+    }
+  }
+
+  &__review-summary {
+    margin-top: $space-4;
+    padding-top: $space-4;
+    border-top: 1px solid $color-border-light;
+
+    div {
+      @include flex-between;
+      padding: $space-1 0;
+      font-size: $font-size-sm;
+
+      &.discount {
+        color: $color-success;
+      }
+
+      &.total {
+        font-size: $font-size-lg;
+        padding-top: $space-3;
+        margin-top: $space-2;
+        border-top: 1px solid $color-border-light;
+      }
+    }
+  }
+}

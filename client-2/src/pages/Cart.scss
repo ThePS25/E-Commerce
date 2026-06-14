@@ -1,0 +1,229 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.cart-page {
+  h1 {
+    font-size: $font-size-2xl;
+    margin-bottom: $space-8;
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-8;
+
+    @include respond-to(lg) {
+      grid-template-columns: 1fr 360px;
+    }
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+  }
+
+  &__summary {
+    @include card-base;
+    padding: $space-6;
+    height: fit-content;
+    position: sticky;
+    top: calc(#{$navbar-height} + #{$space-4});
+
+    h3 {
+      margin-bottom: $space-4;
+    }
+  }
+
+  &__promo {
+    display: flex;
+    gap: $space-2;
+    margin-bottom: $space-6;
+
+    input {
+      flex: 1;
+      padding: $space-2 $space-3;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+      font-size: $font-size-sm;
+    }
+
+    .btn {
+      padding: $space-2 $space-3;
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__row {
+    @include flex-between;
+    padding: $space-2 0;
+    font-size: $font-size-sm;
+
+    &--discount {
+      color: $color-success;
+    }
+
+    &--total {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      border-top: 1px solid $color-border;
+      margin-top: $space-2;
+      padding-top: $space-4;
+    }
+  }
+
+  &__continue {
+    display: block;
+    text-align: center;
+    margin-top: $space-4;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+
+  &__suggestions {
+    margin-bottom: $space-4;
+  }
+
+  &__suggestions-label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $space-2;
+  }
+
+  &__coupon-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+  }
+
+  &__coupon-chip {
+    padding: $space-2 $space-3;
+    border: 1px dashed $color-primary;
+    border-radius: $radius-full;
+    background: rgba($color-primary, 0.06);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-primary;
+    cursor: pointer;
+
+    &.active {
+      background: $color-primary;
+      color: white;
+      border-style: solid;
+    }
+  }
+
+  &__applied-coupon {
+    font-size: $font-size-sm;
+    color: $color-success;
+    margin-bottom: $space-3;
+
+    button {
+      margin-left: $space-2;
+      background: none;
+      border: none;
+      color: $color-error;
+      cursor: pointer;
+      font-size: $font-size-xs;
+    }
+  }
+}
+
+.cart-item {
+  @include card-base;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: $space-4;
+  padding: $space-4;
+  align-items: center;
+
+  @include respond-to(md) {
+    grid-template-columns: 100px 1fr auto auto auto;
+  }
+
+  img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: $radius-lg;
+    background: $color-bg;
+
+    @include respond-to(md) {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+
+    a {
+      font-weight: $font-weight-semibold;
+      color: $color-text;
+    }
+  }
+
+  &__price {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+
+  &__qty {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    grid-column: 1 / -1;
+
+    @include respond-to(md) {
+      grid-column: auto;
+    }
+
+    button {
+      @include flex-center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid $color-border;
+      border-radius: $radius-md;
+      background: $color-surface;
+      cursor: pointer;
+
+      &:hover {
+        border-color: $color-primary;
+        color: $color-primary;
+      }
+    }
+
+    span {
+      min-width: 24px;
+      text-align: center;
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  &__total {
+    font-weight: $font-weight-bold;
+    display: none;
+
+    @include respond-to(md) {
+      display: block;
+    }
+  }
+
+  &__remove {
+    background: none;
+    border: none;
+    color: $color-error;
+    cursor: pointer;
+    padding: $space-2;
+    justify-self: end;
+
+    @include respond-to(md) {
+      justify-self: auto;
+    }
+  }
+}

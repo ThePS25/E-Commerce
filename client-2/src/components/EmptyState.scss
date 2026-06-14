@@ -1,0 +1,32 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.empty-state {
+  @include flex-center;
+  flex-direction: column;
+  text-align: center;
+  padding: $space-12 $space-6;
+  @include card-base;
+  border-style: dashed;
+
+  &__icon {
+    @include flex-center;
+    width: 80px;
+    height: 80px;
+    border-radius: $radius-full;
+    background: rgba($color-primary, 0.08);
+    color: $color-primary;
+    margin-bottom: $space-4;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    margin-bottom: $space-2;
+  }
+
+  &__desc {
+    color: $color-text-muted;
+    max-width: 400px;
+    margin: 0;
+  }
+}
