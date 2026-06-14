@@ -1,0 +1,84 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.product-listing {
+  &__header {
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: $space-4;
+    margin-bottom: $space-8;
+
+    h1 {
+      font-size: $font-size-2xl;
+      margin-bottom: $space-1;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    flex-wrap: wrap;
+  }
+
+  &__filter-btn {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-2 $space-4;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    background: $color-surface;
+    font-size: $font-size-sm;
+    cursor: pointer;
+  }
+
+  &__view-toggle {
+    display: flex;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    overflow: hidden;
+
+    button {
+      @include flex-center;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: $color-surface;
+      color: $color-text-muted;
+      cursor: pointer;
+
+      &.active {
+        background: $color-primary;
+        color: white;
+      }
+    }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-8;
+
+    @include respond-to(lg) {
+      grid-template-columns: 280px 1fr;
+    }
+  }
+
+  &__filters {
+    display: none;
+
+    @include respond-to(lg) {
+      display: block;
+    }
+
+    &.open {
+      display: block;
+    }
+  }
+
+  &__pagination {
+    @include flex-center;
+    margin-top: $space-10;
+  }
+}

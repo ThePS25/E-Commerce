@@ -1,0 +1,40 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.section-header {
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: $space-4;
+  margin-bottom: $space-8;
+
+  &--center {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    margin: 0 0 $space-1;
+
+    @include respond-to(md) {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__subtitle {
+    color: $color-text-muted;
+    margin: 0;
+    font-size: $font-size-base;
+  }
+
+  &__link {
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+    white-space: nowrap;
+
+    &:hover {
+      color: $color-primary-dark;
+    }
+  }
+}

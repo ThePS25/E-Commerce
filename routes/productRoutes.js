@@ -3,6 +3,7 @@ import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import {
   brainTreePaymentController,
   braintreeTokenController,
+  codOrderController,
   createProductController,
   deleteProductController,
   getProductController,
@@ -47,8 +48,8 @@ router.get("/get-product/:slug", getSingleProductController);
 //get photo
 router.get("/product-photo/:pid", productPhotoController);
 
-//delete product
-router.delete("/delete-product/:pid", deleteProductController);
+//delete product (admin only)
+router.delete("/delete-product/:pid", requireSignIn, isAdmin, deleteProductController);
 
 //filter product
 router.post("/product-filters", productFiltersController);
@@ -68,11 +69,9 @@ router.get("/related-product/:pid/:cid", relatedProductController);
 //category wise product
 router.get("/product-category/:slug", productCategoryController);
 
-export default router;
-
-//paymentsroute
-// /token
-router.get("/braintree/token", braintreeTokenController);
-
 //payments
+router.get("/braintree/token", braintreeTokenController);
 router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
+router.post("/cod/order", requireSignIn, codOrderController);
+
+export default router;

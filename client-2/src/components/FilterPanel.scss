@@ -1,0 +1,53 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.filter-panel {
+  @include card-base;
+  padding: $space-6;
+  position: sticky;
+  top: calc(#{$navbar-height} + #{$space-4});
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $space-6;
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__reset {
+    background: none;
+    border: none;
+    color: $color-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__section {
+    margin-bottom: $space-6;
+
+    h4 {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: $color-text-muted;
+      margin-bottom: $space-3;
+    }
+  }
+
+  &__checkboxes,
+  &__radios {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+  }
+}

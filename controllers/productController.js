@@ -5,8 +5,27 @@ import categoryModel from "../models/categoryModel.js";
 import braintree from "braintree";
 import orderModel from "../models/orderModel.js";
 import dotenv from "dotenv";
+import { applyCouponToOrder } from "./couponController.js";
 
 dotenv.config();
+
+const getCartTotal = (cart = []) =>
+  cart.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+
+const saveOrder = async ({ cart, buyerId, payment, coupon }) => {
+  const order = await new orderModel({
+    products: cart,
+    payment,
+    buyer: buyerId,
+  }).save();
+
+  if (coupon) {
+    coupon.usedCount += 1;
+    await coupon.save();
+  }
+
+  return order;
+};
 
 //payment gateway
 var gateway = new braintree.BraintreeGateway({
@@ -347,33 +366,101 @@ export const braintreeTokenController = async (req, res) => {
 //payment
 export const brainTreePaymentController = async (req, res) => {
   try {
-    const { nonce, cart } = req.body;
-    let total = 0;
-    cart.map((i) => {
-      total += i.price;
-    });
-    let newTransaction = gateway.transaction.sale(
+    const { nonce, cart, couponCode } = req.body;
+    const total = getCartTotal(cart);
+
+    let discount = 0;
+    let coupon = null;
+
+    if (couponCode) {
+      try {
+        const applied = await applyCouponToOrder(couponCode, total);
+        discount = applied.discount;
+        coupon = applied.coupon;
+      } catch (err) {
+        return res.status(400).json({ success: false, message: err.message });
+      }
+    }
+
+    const chargeAmount = Math.max(0, total - discount);
+
+    gateway.transaction.sale(
       {
-        amount: total,
+        amount: chargeAmount,
         paymentMethodNonce: nonce,
         options: {
           submitForSettlement: true,
         },
       },
-      function (error, result) {
+      async function (error, result) {
         if (result) {
-          const order = new orderModel({
-            products: cart,
-            payment: result,
-            buyer: req.user._id,
-          }).save();
-          res.json({ ok: true });
+          await saveOrder({
+            cart,
+            buyerId: req.user._id,
+            coupon,
+            payment: {
+              method: "braintree",
+              success: true,
+              amount: chargeAmount,
+              subtotal: total,
+              discount,
+              couponCode: coupon?.code || null,
+              gateway: result,
+            },
+          });
+          res.json({ ok: true, success: true });
         } else {
           res.status(500).send(error);
         }
       }
     );
   } catch (error) {
-    //console.log(error);
+    res.status(500).json({ success: false, message: "Payment failed", error });
+  }
+};
+
+// pay on delivery
+export const codOrderController = async (req, res) => {
+  try {
+    const { cart, couponCode } = req.body;
+    const total = getCartTotal(cart);
+
+    let discount = 0;
+    let coupon = null;
+
+    if (couponCode) {
+      try {
+        const applied = await applyCouponToOrder(couponCode, total);
+        discount = applied.discount;
+        coupon = applied.coupon;
+      } catch (err) {
+        return res.status(400).json({ success: false, message: err.message });
+      }
+    }
+
+    const payable = Math.max(0, total - discount);
+
+    await saveOrder({
+      cart,
+      buyerId: req.user._id,
+      coupon,
+      payment: {
+        method: "cod",
+        success: false,
+        pending: true,
+        amount: payable,
+        subtotal: total,
+        discount,
+        couponCode: coupon?.code || null,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      ok: true,
+      message: "Order placed with Pay on Delivery",
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Could not place order", error });
   }
 };

@@ -1,0 +1,153 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-fixed;
+  height: $navbar-height;
+  background: rgba($color-surface, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color $transition-base, box-shadow $transition-base;
+
+  &--scrolled {
+    border-bottom-color: $color-border-light;
+    box-shadow: $shadow-sm;
+  }
+
+  &__inner {
+    @include flex-between;
+    height: 100%;
+    gap: $space-4;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-xl;
+    color: $color-text;
+    text-decoration: none;
+    flex-shrink: 0;
+
+    img {
+      height: 36px;
+      width: auto;
+    }
+
+    span {
+      background: linear-gradient(135deg, $color-primary, $color-secondary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__nav {
+    display: none;
+    gap: $space-6;
+
+    @include respond-to(lg) {
+      display: flex;
+      align-items: center;
+    }
+
+    a, .navbar__dropdown-trigger {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+      cursor: pointer;
+      transition: color $transition-fast;
+
+      &:hover, &.active {
+        color: $color-primary;
+      }
+    }
+
+    &.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: $navbar-height;
+      left: 0;
+      right: 0;
+      background: $color-surface;
+      padding: $space-6;
+      border-bottom: 1px solid $color-border-light;
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &__search {
+    flex: 1;
+    display: none;
+
+    @include respond-to(md) {
+      display: block;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+  }
+
+  &__action {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-lg;
+    color: $color-text-muted;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: rgba($color-primary, 0.08);
+      color: $color-primary;
+    }
+  }
+
+  &__user-btn {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-2 $space-3;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    background: $color-surface;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: border-color $transition-fast;
+
+    &:hover {
+      border-color: $color-primary;
+    }
+  }
+
+  &__login-btn {
+    padding: $space-2 $space-4;
+    font-size: $font-size-sm;
+    display: none;
+
+    @include respond-to(sm) {
+      display: inline-flex;
+    }
+  }
+
+  &__mobile-toggle {
+    display: flex;
+    background: none;
+    border: none;
+    color: $color-text;
+    cursor: pointer;
+    padding: $space-1;
+
+    @include respond-to(lg) {
+      display: none;
+    }
+  }
+}
